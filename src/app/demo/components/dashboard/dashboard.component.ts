@@ -4,6 +4,7 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -19,8 +20,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartOptions: any;
 
     subscription!: Subscription;
+    listData: any;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
+    constructor(private productService: ProductService, 
+        public layoutService: LayoutService,
+        public dataservice : DataService
+    ) {
         this.subscription = this.layoutService.configUpdate$
         .pipe(debounceTime(25))
         .subscribe((config) => {
@@ -36,7 +41,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
         ];
+
+        var data = {
+            unique_id: 123,
+            cluster: 123,
+            sample: 12345
+        }
+
+         this.dataservice.addData(data);
+
+         this.loadData();
     }
+
+    async loadData(){
+        //this.listData = await this.dateService.getData();
+        this.dataservice.getData().subscribe(res => {
+          this.listData = res;
+        });
+      }
 
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);

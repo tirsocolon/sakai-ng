@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TQSM</string>
+    <string name="title_activity_main">TQSM</string>
+    <string name="package_name">tqsm.app</string>
+    <string name="custom_url_scheme">tqsm.app</string>
+</resources>

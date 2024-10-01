@@ -1,0 +1,566 @@
+
+
+<p-accordion [activeIndex]="0">
+    <p-accordionTab header="Header Form">
+        <div class="card flex justify-content-center">
+    
+			<div class="p-fluid p-formgrid grid">
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="firstname2">Farm</label>
+					<input pInputText id="firstname2" type="text" [(ngModel)]="parent_farm" />
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="lastname2">Packing House</label>
+					<input pInputText id="lastname2" type="text" [(ngModel)]="parent_ph" />
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="firstname2">Box Code</label>
+					<input pInputText id="firstname2" type="text" [(ngModel)]="parent_boxCode" />
+				</div>
+                <div class="field col-12 md:col-6 top">
+					<label htmlFor="city">Date</label>
+					<p-calendar 
+                    [(ngModel)]="parent_date" 
+                    [iconDisplay]="'input'" 
+                    [showIcon]="true" 
+                    inputId="icondisplay" />
+				</div>
+                <div class="field col-12 md:col-6 top">
+					<label htmlFor="zip">Vessel</label>
+					<input pInputText id="zip" type="text" [(ngModel)]="parent_vessel" />
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="lastname2">Track Number</label>
+					<input pInputText id="lastname2" type="number" [(ngModel)]="parent_trackNumber" />
+				</div>
+			</div>   
+        </div>
+    </p-accordionTab>
+</p-accordion>
+
+<br>
+
+<div class="card">
+    <div class="flex mb-2 gap-2 justify-content-end">
+        <p-button 
+            (click)="activeItem = items[0]" 
+            [rounded]="true" label="B1" 
+            styleClass="w-2rem h-2rem p-0" 
+            [outlined]="activeItem !== items[0]" />
+        <p-button 
+            (click)="activeItem = items[1]" 
+            [rounded]="true" 
+            label="B2" 
+            styleClass="w-2rem h-2rem p-0" 
+            [outlined]="activeItem !== items[1]" />
+        <p-button 
+            (click)="activeItem = items[2]" 
+            [rounded]="true" 
+            label="B3" 
+            styleClass="w-2rem h-2rem p-0" 
+            [outlined]="activeItem !== items[2]" />
+        <p-button 
+            (click)="activeItem = items[3]" 
+            [rounded]="true" 
+            label="B4" 
+            styleClass="w-2rem h-2rem p-0" 
+            [outlined]="activeItem !== items[3]" />
+        <p-button 
+            (click)="activeItem = items[4]" 
+            [rounded]="true" 
+            label="B5" 
+            styleClass="w-2rem h-2rem p-0" 
+            [outlined]="activeItem !== items[4]" />   
+        <p-button 
+            (click)="activeItem = items[5]" 
+            [rounded]="true" 
+            label="P" 
+            styleClass="w-2rem h-2rem p-0" 
+            [outlined]="activeItem !== items[5]" />   
+    </div>
+    <p-tabMenu 
+        [model]="items" 
+        [activeItem]="activeItem" 
+        (activeItemChange)="onActiveItemChange($event)" />
+
+    <br>
+
+    <div *ngIf="activeItem.label === 'Box 1'">
+           
+        <div class="card flex justify-content-center">
+			<div class="p-fluid p-formgrid grid">
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="firstname2">Box Weight</label>
+					<input pInputText id="firstname2" type="text" />
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="lastname2">Pack Type</label>
+					<input pInputText id="lastname2" type="text" [(ngModel)]="pack_type"/>
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="firstname2">Time Evaluated</label>
+					<input pInputText id="firstname2" type="text" />
+				</div>
+                <div class="field col-12 md:col-6 top">
+					<label htmlFor="city">Brand</label>
+					<input pInputText id="city" type="text" [(ngModel)]="brand"/>
+				</div>
+                <div class="field col-12 md:col-6 top">
+					<label htmlFor="zip">L/P #</label>
+					<input pInputText id="zip" type="text" />
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="lastname2">Market</label>
+					<input pInputText id="lastname2" type="text" [(ngModel)]="market" />
+				</div>
+			</div>
+        </div>
+
+        <div class="p-fluid p-formgrid grid">
+
+            <div class="field col-12 md:col-6 top">
+                <div class="card justify-content-center">
+                    <h6 class="top" style="text-align: center;">OCA</h6>
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-10 md:col-10">
+                            <p-dropdown 
+                                [options]="oca_item" 
+                                [(ngModel)]="box1_oca_selected" 
+                                optionLabel="code" 
+                                [filter]="true"
+                                filterBy="code"
+                                [showClear]="true"
+                                placeholder="Select OCA" />
+                        </div>
+                        <div class="field col-2 md:col-2">
+                            <p-button icon="pi pi-plus" (click)="box1_oca_add()"/>
+                        </div>
+                       
+                    </div>  
+                    <p-table [value]="box1_oca_detailsArray">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Code</th>
+                                <th>Case</th>
+                                <th>I/D</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-oca>
+                            <tr>
+                                <td>{{ oca.code }}</td>
+                                <td>{{ oca.case }}</td>
+                                <td>
+                                    <p-button icon="pi pi-plus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box1_oca_increment(oca)"/>
+                                    <p-button icon="pi pi-minus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box1_oca_decrement(oca)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>   
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6 top">
+                <div class="card justify-content-center">
+                    <h6 class="top" style="text-align: center;">Crown Conditon</h6>
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-10 md:col-10">
+                            <p-dropdown 
+                                [options]="cc_item" 
+                                [(ngModel)]="box1_cc_selected" 
+                                optionLabel="code" 
+                                [filter]="true"
+                                filterBy="code"
+                                [showClear]="true"
+                                placeholder="Select CC" />
+                        </div>
+                        <div class="field col-2 md:col-2">
+                            <p-button icon="pi pi-plus" (click)="box1_cc_add()"/>
+                        </div>
+                    </div>  
+                    <p-table [value]="box1_cc_detailsArray">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Code</th>
+                                <th>Case</th>
+                                <th>I/D</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-cc>
+                            <tr>
+                                <td>{{ cc.code }}</td>
+                                <td>{{ cc.case }}</td>
+                                <td>
+                                    <p-button icon="pi pi-plus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box1_cc_increment(cc)"/>
+                                    <p-button icon="pi pi-minus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box1_cc_decrement(cc)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>   
+                </div>
+            </div>
+            
+            <div class="field col-12 md:col-6 top">
+                <div class="card justify-content-center">
+                    <h6 class="top" style="text-align: center;">PPMU</h6>
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-10 md:col-10">
+                            <p-dropdown 
+                                [options]="ppmu_item" 
+                                [(ngModel)]="box1_ppmu_selected" 
+                                optionLabel="code" 
+                                [filter]="true"
+                                filterBy="code"
+                                [showClear]="true"
+                                placeholder="Select PPMU" />
+                        </div>
+                        <div class="field col-2 md:col-2">
+                            <p-button icon="pi pi-plus" (click)="box1_ppmu_add()"/>
+                        </div>
+                    </div>
+                    <p-table [value]="box1_ppmu_detailsArray">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Code</th>
+                                <th>Case</th>
+                                <th>I/D</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-ppmu>
+                            <tr>
+                                <td>{{ ppmu.code }}</td>
+                                <td>{{ ppmu.case }}</td>
+                                <td>
+                                    <p-button icon="pi pi-plus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box1_ppmu_increment(ppmu)"/>
+                                    <p-button icon="pi pi-minus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box1_ppmu_decrement(ppmu)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>  
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="activeItem.label === 'Box 2'">
+
+        <div class="card flex justify-content-center">
+			<div class="p-fluid p-formgrid grid">
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="firstname2">Box Weight</label>
+					<input pInputText id="firstname2" type="text" />
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="lastname2">Pack Type</label>
+					<input pInputText id="lastname2" type="text" [(ngModel)]="pack_type" disabled/>
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="firstname2">Time Evaluated</label>
+					<input pInputText id="firstname2" type="text" />
+				</div>
+                <div class="field col-12 md:col-6 top">
+					<label htmlFor="city">Brand</label>
+					<input pInputText id="city" type="text" [(ngModel)]="brand" disabled/>
+				</div>
+                <div class="field col-12 md:col-6 top">
+					<label htmlFor="zip">L/P #</label>
+					<input pInputText id="zip" type="text" />
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="lastname2">Market</label>
+					<input pInputText id="lastname2" type="text" [(ngModel)]="market" disabled/>
+				</div>
+			</div>
+        </div>
+
+        <div class="p-fluid p-formgrid grid">
+
+            <div class="field col-12 md:col-6 top">
+                <div class="card justify-content-center">
+                    <h6 class="top" style="text-align: center;">OCA</h6>
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-10 md:col-10">
+                            <p-dropdown 
+                                [options]="oca_item" 
+                                [(ngModel)]="box2_oca_selected" 
+                                optionLabel="code" 
+                                [filter]="true"
+                                filterBy="code"
+                                [showClear]="true"
+                                placeholder="Select OCA" />
+                        </div>
+                        <div class="field col-2 md:col-2">
+                            <p-button icon="pi pi-plus" (click)="box2_oca_add()"/>
+                        </div>
+                       
+                    </div>  
+                    <p-table [value]="box2_oca_detailsArray">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Code</th>
+                                <th>Case</th>
+                                <th>I/D</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-oca>
+                            <tr>
+                                <td>{{ oca.code }}</td>
+                                <td>{{ oca.case }}</td>
+                                <td>
+                                    <p-button icon="pi pi-plus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box2_oca_increment(oca)"/>
+                                    <p-button icon="pi pi-minus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box2_oca_decrement(oca)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>   
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6 top">
+                <div class="card justify-content-center">
+                    <h6 class="top" style="text-align: center;">Crown Conditon</h6>
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-10 md:col-10">
+                            <p-dropdown 
+                                [options]="cc_item" 
+                                [(ngModel)]="box2_cc_selected" 
+                                optionLabel="code" 
+                                [filter]="true"
+                                filterBy="code"
+                                [showClear]="true"
+                                placeholder="Select CC" />
+                        </div>
+                        <div class="field col-2 md:col-2">
+                            <p-button icon="pi pi-plus" (click)="box2_cc_add()"/>
+                        </div>
+                    </div>  
+                    <p-table [value]="box2_cc_detailsArray">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Code</th>
+                                <th>Case</th>
+                                <th>I/D</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-cc>
+                            <tr>
+                                <td>{{ cc.code }}</td>
+                                <td>{{ cc.case }}</td>
+                                <td>
+                                    <p-button icon="pi pi-plus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box2_cc_increment(cc)"/>
+                                    <p-button icon="pi pi-minus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box2_cc_decrement(cc)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>   
+                </div>
+            </div>
+            
+            <div class="field col-12 md:col-6 top">
+                <div class="card justify-content-center">
+                    <h6 class="top" style="text-align: center;">PPMU</h6>
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-10 md:col-10">
+                            <p-dropdown 
+                                [options]="ppmu_item" 
+                                [(ngModel)]="box2_ppmu_selected" 
+                                optionLabel="code" 
+                                [filter]="true"
+                                filterBy="code"
+                                [showClear]="true"
+                                placeholder="Select PPMU" />
+                        </div>
+                        <div class="field col-2 md:col-2">
+                            <p-button icon="pi pi-plus" (click)="box2_ppmu_add()"/>
+                        </div>
+                    </div>
+                    <p-table [value]="box2_ppmu_detailsArray">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Code</th>
+                                <th>Case</th>
+                                <th>I/D</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-ppmu>
+                            <tr>
+                                <td>{{ ppmu.code }}</td>
+                                <td>{{ ppmu.case }}</td>
+                                <td>
+                                    <p-button icon="pi pi-plus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box2_ppmu_increment(ppmu)"/>
+                                    <p-button icon="pi pi-minus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box2_ppmu_decrement(ppmu)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>  
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="activeItem.label === 'Box 3'">
+
+        <div class="card flex justify-content-center">
+			<div class="p-fluid p-formgrid grid">
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="firstname2">Box Weight</label>
+					<input pInputText id="firstname2" type="text" />
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="lastname2">Pack Type</label>
+					<input pInputText id="lastname2" type="text" [(ngModel)]="pack_type" disabled/>
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="firstname2">Time Evaluated</label>
+					<input pInputText id="firstname2" type="text" />
+				</div>
+                <div class="field col-12 md:col-6 top">
+					<label htmlFor="city">Brand</label>
+					<input pInputText id="city" type="text" [(ngModel)]="brand" disabled/>
+				</div>
+                <div class="field col-12 md:col-6 top">
+					<label htmlFor="zip">L/P #</label>
+					<input pInputText id="zip" type="text" />
+				</div>
+				<div class="field col-12 md:col-6 top">
+					<label htmlFor="lastname2">Market</label>
+					<input pInputText id="lastname2" type="text" [(ngModel)]="market" disabled/>
+				</div>
+			</div>
+        </div>
+
+        <div class="p-fluid p-formgrid grid">
+
+            <div class="field col-12 md:col-6 top">
+                <div class="card justify-content-center">
+                    <h6 class="top" style="text-align: center;">OCA</h6>
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-10 md:col-10">
+                            <p-dropdown 
+                                [options]="oca_item" 
+                                [(ngModel)]="box3_oca_selected" 
+                                optionLabel="code" 
+                                [filter]="true"
+                                filterBy="code"
+                                [showClear]="true"
+                                placeholder="Select OCA" />
+                        </div>
+                        <div class="field col-2 md:col-2">
+                            <p-button icon="pi pi-plus" (click)="box3_oca_add()"/>
+                        </div>
+                       
+                    </div>  
+                    <p-table [value]="box3_oca_detailsArray">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Code</th>
+                                <th>Case</th>
+                                <th>I/D</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-oca>
+                            <tr>
+                                <td>{{ oca.code }}</td>
+                                <td>{{ oca.case }}</td>
+                                <td>
+                                    <p-button icon="pi pi-plus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box3_oca_increment(oca)"/>
+                                    <p-button icon="pi pi-minus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box3_oca_decrement(oca)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>   
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6 top">
+                <div class="card justify-content-center">
+                    <h6 class="top" style="text-align: center;">Crown Conditon</h6>
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-10 md:col-10">
+                            <p-dropdown 
+                                [options]="cc_item" 
+                                [(ngModel)]="box3_cc_selected" 
+                                optionLabel="code" 
+                                [filter]="true"
+                                filterBy="code"
+                                [showClear]="true"
+                                placeholder="Select CC" />
+                        </div>
+                        <div class="field col-2 md:col-2">
+                            <p-button icon="pi pi-plus" (click)="box3_cc_add()"/>
+                        </div>
+                    </div>  
+                    <p-table [value]="box3_cc_detailsArray">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Code</th>
+                                <th>Case</th>
+                                <th>I/D</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-cc>
+                            <tr>
+                                <td>{{ cc.code }}</td>
+                                <td>{{ cc.case }}</td>
+                                <td>
+                                    <p-button icon="pi pi-plus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box3_cc_increment(cc)"/>
+                                    <p-button icon="pi pi-minus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box3_cc_decrement(cc)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>   
+                </div>
+            </div>
+            
+            <div class="field col-12 md:col-6 top">
+                <div class="card justify-content-center">
+                    <h6 class="top" style="text-align: center;">PPMU</h6>
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-10 md:col-10">
+                            <p-dropdown 
+                                [options]="ppmu_item" 
+                                [(ngModel)]="box3_ppmu_selected" 
+                                optionLabel="code" 
+                                [filter]="true"
+                                filterBy="code"
+                                [showClear]="true"
+                                placeholder="Select PPMU" />
+                        </div>
+                        <div class="field col-2 md:col-2">
+                            <p-button icon="pi pi-plus" (click)="box3_ppmu_add()"/>
+                        </div>
+                    </div>
+                    <p-table [value]="box3_ppmu_detailsArray">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Code</th>
+                                <th>Case</th>
+                                <th>I/D</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-ppmu>
+                            <tr>
+                                <td>{{ ppmu.code }}</td>
+                                <td>{{ ppmu.case }}</td>
+                                <td>
+                                    <p-button icon="pi pi-plus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box3_ppmu_increment(ppmu)"/>
+                                    <p-button icon="pi pi-minus" size="small" [rounded]="true" [text]="true" [outlined]="true" (click)="box3_ppmu_decrement(ppmu)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>  
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="activeItem.label === 'Preview'">
+
+
+    </div>
+
+
+</div>

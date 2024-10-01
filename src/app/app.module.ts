@@ -11,14 +11,32 @@ import { EventService } from './demo/service/event.service';
 import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { Drivers } from '@ionic/storage';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 @NgModule({
-    declarations: [AppComponent, NotfoundComponent],
-    imports: [AppRoutingModule, AppLayoutModule],
+    declarations: [
+        AppComponent, 
+        NotfoundComponent
+    ],
+    imports: [
+        AppRoutingModule, 
+        AppLayoutModule, 
+        IonicStorageModule.forRoot({
+            name: "tqs-database",
+            driverOrder: [CordovaSQLiteDriver._driver, Drivers.IndexedDB, Drivers.LocalStorage]
+        }),
+    ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
-        CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService
+        CountryService, 
+        CustomerService, 
+        EventService, 
+        IconService, 
+        NodeService,
+        PhotoService, 
+        ProductService
     ],
     bootstrap: [AppComponent],
 })
